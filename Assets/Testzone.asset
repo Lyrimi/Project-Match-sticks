@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d284bd26e7738e488bf5ba78610974a, type: 3}
+  m_Name: Testzone
+  m_EditorClassIdentifier: 
+  ZoneRadius: 90
+  ZoneName: 
+  ZoneType: 0
+  StickQuouta: 0
+  BushQuouta: 0
+  EnemyQuouta: 0
+  FloorTile: {fileID: 11400000, guid: 54435b250407df140a8ee1a5fadb9946, type: 2}

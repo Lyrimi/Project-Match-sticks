@@ -23,9 +23,9 @@ public class VisionConeSetup : MonoBehaviour {
 
     public Vector2[] CalculatePoints() {
         Vector2[] points = new Vector2[arcResolution+2];
-        float baseX = -baseRadius/Mathf.Sqrt(1/Mathf.Pow(Mathf.Tan(angle/2)+adjustment, 2) + 1);
+        float baseX = -1/Mathf.Sqrt(1/Mathf.Pow(Mathf.Tan(angle/2)+adjustment, 2) + 1);
         float baseY = Mathf.Sqrt(1 - Mathf.Pow(baseX, 2));
-        points[0] = new Vector2(baseX, baseY);
+        points[0] = new Vector2(baseX, baseY)*baseRadius;
 
         //Half of arcResolution, rounded UP.
         int halfArcRes = (arcResolution&1)==0 ? arcResolution/2 : arcResolution/2+1;

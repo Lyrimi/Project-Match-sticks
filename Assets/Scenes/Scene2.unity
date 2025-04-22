@@ -838,7 +838,7 @@ MonoBehaviour:
   angle: 1.77
   arcResolution: 5
   adjustment: -0.437
-  update: 1
+  update: 0
   updateFrequency: 20
 --- !u!58 &1774699651
 CircleCollider2D:

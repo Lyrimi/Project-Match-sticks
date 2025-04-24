@@ -27,13 +27,14 @@ public class PlayerTest : MonoBehaviour
         rb.velocity = vel*speed;
     }
 
-    public Vector2 TempFunction(float lowerRadius, float upperRadius, float minRadians, float maxRadians) {
+    public Vector2 RandomPointInRingMath(float lowerRadius, float upperRadius, float minRadians, float maxRadians) {
         float angle = Random.Range(minRadians, maxRadians);
         float squareLength = Random.Range(Mathf.Pow(lowerRadius, 2), Mathf.Pow(upperRadius, 2));
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))*Mathf.Sqrt(squareLength);
     }
-
-    public Vector2 TempFunction(float lowerRadius, float upperRadius) {
-        return TempFunction(lowerRadius, upperRadius, 0, Mathf.PI*2);
+    
+    public Vector2 RandomPointInRing(float lowerRadius, float upperRadius) {
+        Random.InitState(10);
+        return RandomPointInRingMath(lowerRadius, upperRadius, 0, Mathf.PI*2);
     }
 }

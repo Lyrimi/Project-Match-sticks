@@ -13,5 +13,7 @@ public class ZoneTemplate : ScriptableObject
     public int BushQuouta;
     public int EnemyQuouta;
     public Tile FloorTile;
+    public Tile[] Decorations;
+    public float[] Chances;
 
 }

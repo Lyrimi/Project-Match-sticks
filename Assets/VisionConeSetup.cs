@@ -23,24 +23,24 @@ public class VisionConeSetup : MonoBehaviour {
 
     public Vector2[] CalculatePoints() {
         Vector2[] points = new Vector2[arcResolution+2];
-        float baseX = -baseRadius/Mathf.Sqrt(1/Mathf.Pow(Mathf.Tan(angle/2)+adjustment, 2) + 1);
+        float baseX = -1/Mathf.Sqrt(1/Mathf.Pow(Mathf.Tan(angle/2)+adjustment, 2) + 1);
         float baseY = Mathf.Sqrt(1 - Mathf.Pow(baseX, 2));
-        points[0] = new Vector2(baseX, baseY);
+        points[0] = new Vector2(baseX, baseY)*baseRadius;
 
-        //Half of arcResolution, rounded UP, minus one.
-        int halfArcResMinusOne = (arcResolution&1)==0 ? arcResolution/2 : arcResolution/2+1;
+        //Half of arcResolution, rounded UP.
+        int halfArcRes = (arcResolution&1)==0 ? arcResolution/2 : arcResolution/2+1;
 
-        for (int i = 0; i < halfArcResMinusOne; i++) {
-            float theta = angle*((halfArcResMinusOne-i-1)/(arcResolution - 1f));
+        for (int i = 0; i < halfArcRes; i++) {
+            float theta = angle*(-i/(arcResolution - 1f)+.5f);
             points[i+1] = new Vector2(Mathf.Cos(theta), Mathf.Sin(theta))*coneRadius;
         }
 
         //Mirror all the points for the remainder.
 
-        //Half of points.Length, rounded DOWN, minus one.
-        int halfPointsMinusOne = points.Length/2;
+        //Half of points.Length, rounded DOWN.
+        int halfPoints = points.Length/2;
 
-        for (int i = 0; i < halfPointsMinusOne; i++) {
+        for (int i = 0; i < halfPoints; i++) {
             points[points.Length-i-1] = new Vector2(points[i].x, -points[i].y);
         }
         return points;

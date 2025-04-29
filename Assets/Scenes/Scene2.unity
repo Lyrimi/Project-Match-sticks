@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 646566619}
   - component: {fileID: 646566618}
   - component: {fileID: 646566617}
+  - component: {fileID: 646566620}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -482,6 +483,18 @@ Transform:
   - {fileID: 1740011224}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &646566620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 646566616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad38eee9ca9565e4abc53bf2a7ef3686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &770256911
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,9 +809,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1740011224}
-  - component: {fileID: 1740011227}
   - component: {fileID: 1740011226}
   - component: {fileID: 1740011225}
+  - component: {fileID: 1740011228}
   m_Layer: 0
   m_Name: VisionEnd
   m_TagString: Untagged
@@ -837,8 +850,9 @@ MonoBehaviour:
   baseRadius: 2.5
   coneRadius: 10
   angle: 1.95
-  arcResolution: 7
-  adjustment: -0.6
+  arcResolution: 17
+  circleResolution: 7
+  iterations: 5
   update: 0
   updateFrequency: 10
 --- !u!60 &1740011226
@@ -891,41 +905,20 @@ PolygonCollider2D:
       - {x: 7.290974, y: -4.6385236}
       - {x: 9.920288, y: 2.0949278}
   m_UseDelaunayMesh: 0
---- !u!58 &1740011227
-CircleCollider2D:
+--- !u!114 &1740011228
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740011223}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 2.5
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50f370759c48af49b0f4c3ee1f8046c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 1858433119}
+  exit: 1
 --- !u!1 &1774699647
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,9 +928,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1774699648}
-  - component: {fileID: 1774699651}
   - component: {fileID: 1774699652}
   - component: {fileID: 1774699650}
+  - component: {fileID: 1774699653}
   m_Layer: 0
   m_Name: Vision
   m_TagString: Untagged
@@ -976,45 +969,11 @@ MonoBehaviour:
   baseRadius: 1
   coneRadius: 5
   angle: 1.77
-  arcResolution: 5
-  adjustment: -0.437
+  arcResolution: 15
+  circleResolution: 5
+  iterations: 5
   update: 0
   updateFrequency: 20
---- !u!58 &1774699651
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1774699647}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1
 --- !u!60 &1774699652
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1065,6 +1024,20 @@ PolygonCollider2D:
       - {x: 3.3318558, y: -1.932008}
       - {x: 4.6190963, y: 1.0883722}
   m_UseDelaunayMesh: 0
+--- !u!114 &1774699653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774699647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50f370759c48af49b0f4c3ee1f8046c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 1858433119}
+  exit: 0
 --- !u!1 &1838601467
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,7 +1170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11912afa3d4ea914db9c16f4b4b9208e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.5
+  speed: 5
 --- !u!50 &1858433124
 Rigidbody2D:
   serializedVersion: 4

@@ -450,7 +450,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 4
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -498,10 +498,10 @@ MonoBehaviour:
   enemy: {fileID: 1858433119}
   cone1: {fileID: 1774699652}
   cone2: {fileID: 1740011226}
-  accel: 14.5
+  accel: 19
   turnSpeed: 1
-  angulDecay: 10
-  friction: 3
+  angulDecay: 12
+  friction: 4
   DEBUG_FACING: {fileID: 809927332}
 --- !u!1 &770256911
 GameObject:

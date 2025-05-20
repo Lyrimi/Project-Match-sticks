@@ -15,8 +15,8 @@ MonoBehaviour:
   ZoneRadius: 180
   ZoneName: 
   ZoneType: 0
-  StickQuouta: 0
-  BushQuouta: 0
+  StickQuouta: 200
+  BushQuouta: 100
   EnemyQuouta: 0
   FloorTile: {fileID: 11400000, guid: e5bbe4ae70e26c94b8fad24594bc7a37, type: 2}
   Decorations:

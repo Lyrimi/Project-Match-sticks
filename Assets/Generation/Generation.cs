@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Unity.Mathematics;
 using System.Runtime.ConstrainedExecution;
+using UnityEngine.UI;
+using TMPro;
+using UnityEditor.ShaderGraph.Internal;
 
 public class Generation : MonoBehaviour
 {
@@ -12,10 +15,18 @@ public class Generation : MonoBehaviour
     public GameObject Player;
     public Tilemap TMap;
     public Tilemap DecoMap;
+    public Tilemap ObjectMap;
     public int RenderDistance = 1;
     public int ChunkSize = 32;
+    public Slider progressSlider;
+    public TextMeshProUGUI DebugText;
+    public GameObject Bush;
+    public GameObject Stick;
+
     Vector2Int curChunk;
     int curZone = 0;
+
+    
 
     public static int Seed;
 
@@ -49,6 +60,8 @@ public class Generation : MonoBehaviour
     {  
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         Application.targetFrameRate = 70;
+
+
     }
 
     private float test() 
@@ -85,8 +98,58 @@ public class Generation : MonoBehaviour
         Seed = UnityEngine.Random.Range(0,int.MaxValue);
 
         print($"Current Seed : {Seed}");
-        
-        //StartCoroutine(PlayTimeGenration());
+
+        UnityEngine.Random.InitState(Seed);
+        int TotalSticks = 0;
+        int TotalBushes = 0;
+        int TotalEnemys = 0;
+        foreach (ZoneTemplate Zone in Zones) 
+        {
+            TotalSticks += Zone.StickQuouta;
+            TotalBushes += Zone.BushQuouta;
+            TotalEnemys += Zone.EnemyQuouta;
+        }
+
+        progressSlider.maxValue = TotalSticks+TotalBushes+TotalEnemys;
+
+        for (int i = 0; i < Zones.Length; i++)
+        {
+            int lowerRadius = 0;
+            int upperRadius = Zones[i].ZoneRadius;
+            if (i == 0)
+            {
+                lowerRadius = 0;
+            }
+            else
+            {
+                lowerRadius = Zones[i-1].ZoneRadius;
+            }
+
+
+            for (int s = 0;  s< Zones[i].StickQuouta; s++)
+            {
+                DebugText.text = $"Generating Sticks {s+1}/{Zones[i].StickQuouta}";
+                Vector2 RandPoint = RandomPointInRing(lowerRadius, upperRadius);
+                progressSlider.value += 1;
+                Instantiate(Stick, new Vector3Int((int)RandPoint.x, (int)RandPoint.y, (int)Stick.transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0)));
+            }
+
+            for (int s = 0; s < Zones[i].BushQuouta; s++)
+            {
+                DebugText.text = $"Generating Sticks {s + 1}/{Zones[i].BushQuouta}";
+                Vector2 RandPoint = RandomPointInRing(lowerRadius, upperRadius);
+                progressSlider.value += 1;
+                Instantiate(Bush, new Vector3Int((int)RandPoint.x, (int)RandPoint.y, (int)Bush.transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0)));
+            }
+
+        }
+
+    }
+
+    IEnumerator StartGeneration() 
+    {
+        yield return new WaitForFixedUpdate();
+
     }
 
     Vector2Int getChunk(GameObject obj)

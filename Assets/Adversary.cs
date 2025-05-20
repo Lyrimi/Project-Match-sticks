@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.Rendering.Universal.Internal;
 
 public class Adversary : MonoBehaviour
 {
@@ -21,14 +23,35 @@ public class Adversary : MonoBehaviour
     public float animLostSightTurnFactor;
     public int animLostSightTurnDelay;
     public int animLostSightEndDelay;
+    public int wanderTimerMin;
+    public int wanderTimerMax;
+    public int wanderAdjustTimerMin;
+    public int wanderAdjustTimerMax;
+    public int wanderAdjustTimerMinRemaining;
+    public int wanderDelayMin;
+    public int wanderDelayMax;
+    public float wanderAdjustMinAngle;
+    public float wanderAdjustMaxAngle;
+    public float wanderMoveFactor;
+    public float wanderTurnFactor;
+    public float headHomeDistance;
     public GameObject DEBUG_FACING;
     public GameObject DEBUG_CHASE;
+
+    Vector2 home;
 
     bool enemyInSight = false;
     int enemyLastSeen = 0x7FFFFFFF;
     int animLostSightTimer = 0x7FFFFFFF;
     Vector2 enemyLastPosition;
     Vector2 enemyLastVel;
+    int wanderTimer;
+    int wanderAdjustTimer;
+    int wanderDelay;
+    float wanderAngle;
+    const float WANDER_DEFLECT_NO_DEFLECT = -9999f;
+    float wanderDeflectAngle = WANDER_DEFLECT_NO_DEFLECT;
+
     float rotation = 0;
     float angulVel = 0;
     Rigidbody2D rb;
@@ -37,6 +60,15 @@ public class Adversary : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        home = transform.position;
+
+        wanderTimer = UnityEngine.Random.Range(wanderTimerMin, wanderTimerMax+1);
+        wanderAdjustTimer = UnityEngine.Random.Range(wanderAdjustTimerMin, wanderAdjustTimerMax+1);
+        if (wanderTimer-wanderAdjustTimer < wanderAdjustTimerMinRemaining) {
+            wanderAdjustTimer = 0x7FFFFFFF;
+        }
+        wanderAngle = UnityEngine.Random.Range(-Mathf.PI, Mathf.PI);
     }
 
     // Update is called once per frame
@@ -85,7 +117,7 @@ public class Adversary : MonoBehaviour
                     angleDiff -= Mathf.PI*2;
                 }
                 
-                rotateMovement = (Mathf.Sign(angleDiff));
+                rotateMovement = Mathf.Sign(angleDiff);
                 movement = new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)).normalized;
                 movMagnitude = 1;
                 DEBUG_COLOR = new Color(0, 0, .5f);
@@ -103,13 +135,56 @@ public class Adversary : MonoBehaviour
                     rotateMovement = animLostSightTurnFactor;
                 }
                 animLostSightTimer++;
+                if (animLostSightTimer == animLostSightInitDelay + animLostSightTurnTime * 4 + animLostSightTurnDelay * 2 + animLostSightEndDelay) {
+                    SetupWanderTimer();
+                    wanderDelay = 0;
+                    wanderDeflectAngle = WANDER_DEFLECT_NO_DEFLECT;
+                    wanderAngle = GetWanderAngle();
+                }
                 
                 movement = Vector2.zero;
                 movMagnitude = 0;
                 DEBUG_COLOR = new Color(.5f, .5f, 0);
             } else {
-                movement = Vector2.zero;
-                movMagnitude = 0;
+                if (wanderDeflectAngle != WANDER_DEFLECT_NO_DEFLECT) {
+                    wanderAngle = wanderDeflectAngle;
+                    wanderDeflectAngle = WANDER_DEFLECT_NO_DEFLECT;
+                    SetupWanderTimer();
+                    wanderDelay = 0;
+                }
+                if (wanderDelay > 0) {
+                    wanderDelay--;
+                    if (wanderDelay == 0) {
+                        SetupWanderTimer();
+                        wanderAngle = GetWanderAngle();
+                    }
+                    movement = Vector2.zero;
+                    movMagnitude = 0;
+                } else {
+                    if (wanderAdjustTimer == 0) {
+                        wanderAngle += UnityEngine.Random.Range(wanderAdjustMinAngle, wanderAdjustMaxAngle)*(UnityEngine.Random.Range(0, 2)*2-1);
+                        wanderAdjustTimer = UnityEngine.Random.Range(wanderAdjustTimerMin, wanderAdjustTimerMax+1);
+                        if (wanderTimer-1-wanderAdjustTimer < wanderAdjustTimerMinRemaining) {
+                            wanderAdjustTimer = 0x7FFFFFFF;
+                        }
+                    }
+                    movement = new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)).normalized*wanderMoveFactor;
+                    movMagnitude = wanderMoveFactor;
+                    float angleDiff = wanderAngle-rotation;
+                    if (angleDiff <= -Mathf.PI) {
+                        angleDiff += Mathf.PI*2;
+                    } else if (angleDiff > Mathf.PI) {
+                        angleDiff -= Mathf.PI*2;
+                    }
+                    if (angleDiff != 0) {
+                        rotateMovement = Mathf.Sign(angleDiff)*wanderTurnFactor;
+                    }
+                    wanderAdjustTimer--;
+                    wanderTimer--;
+                    if (wanderTimer == 0) {
+                        wanderDelay = UnityEngine.Random.Range(wanderDelayMin, wanderDelayMax+1);
+                    }
+                }
                 DEBUG_COLOR = new Color(.5f, .5f, .5f);
             }
         }
@@ -157,7 +232,32 @@ public class Adversary : MonoBehaviour
         cone2.transform.rotation = q;
     }
 
+    public void SetupWanderTimer() {
+        wanderTimer = UnityEngine.Random.Range(wanderTimerMin, wanderTimerMax+1);
+        wanderAdjustTimer = UnityEngine.Random.Range(wanderAdjustTimerMin, wanderAdjustTimerMax+1);
+        if (wanderTimer-wanderAdjustTimer < wanderAdjustTimerMinRemaining) {
+            wanderAdjustTimer = 0x7FFFFFFF;
+        }
+    }
+
+    public float GetWanderAngle() {
+        Vector2 vec2Home = home-(Vector2) transform.position;
+        if (vec2Home.magnitude >= headHomeDistance) {
+            return Mathf.Atan2(vec2Home.y, vec2Home.x);
+        } else {
+            return UnityEngine.Random.Range(-Mathf.PI, Mathf.PI);
+        }
+    }
+
     public void VisionUpdate(Boolean spotted) {
         enemyInSight = spotted;
     }
+
+	private void OnCollisionEnter2D(Collision2D collision) {
+        if (!enemyInSight && enemyLastSeen >= lostSightChaseTime && animLostSightTimer >= animLostSightInitDelay+animLostSightTurnTime*4+animLostSightTurnDelay*2+animLostSightEndDelay) {
+		    wanderTimer = 0;
+            Vector2 normal = collision.contacts[0].normal;
+            wanderDeflectAngle = Mathf.Atan2(normal.y, normal.x);
+        }
+	}
 }

@@ -18,8 +18,8 @@ public class Generation : MonoBehaviour
     public Tilemap ObjectMap;
     public int RenderDistance = 1;
     public int ChunkSize = 32;
-    public Slider progressSlider;
-    public TextMeshProUGUI DebugText;
+    //public Slider progressSlider;
+    //public TextMeshProUGUI DebugText;
     public GameObject Bush;
     public GameObject Stick;
 
@@ -110,7 +110,7 @@ public class Generation : MonoBehaviour
             TotalEnemys += Zone.EnemyQuouta;
         }
 
-        progressSlider.maxValue = TotalSticks+TotalBushes+TotalEnemys;
+        //progressSlider.maxValue = TotalSticks+TotalBushes+TotalEnemys;
 
         for (int i = 0; i < Zones.Length; i++)
         {
@@ -128,17 +128,17 @@ public class Generation : MonoBehaviour
 
             for (int s = 0;  s< Zones[i].StickQuouta; s++)
             {
-                DebugText.text = $"Generating Sticks {s+1}/{Zones[i].StickQuouta}";
+                //DebugText.text = $"Generating Sticks {s+1}/{Zones[i].StickQuouta}";
                 Vector2 RandPoint = RandomPointInRing(lowerRadius, upperRadius);
-                progressSlider.value += 1;
+                //progressSlider.value += 1;
                 Instantiate(Stick, new Vector3Int((int)RandPoint.x, (int)RandPoint.y, (int)Stick.transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0)));
             }
 
             for (int s = 0; s < Zones[i].BushQuouta; s++)
             {
-                DebugText.text = $"Generating Sticks {s + 1}/{Zones[i].BushQuouta}";
+                //DebugText.text = $"Generating Sticks {s + 1}/{Zones[i].BushQuouta}";
                 Vector2 RandPoint = RandomPointInRing(lowerRadius, upperRadius);
-                progressSlider.value += 1;
+                //progressSlider.value += 1;
                 Instantiate(Bush, new Vector3Int((int)RandPoint.x, (int)RandPoint.y, (int)Bush.transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0)));
             }
 

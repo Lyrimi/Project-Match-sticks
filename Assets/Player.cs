@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     InputAction move;
     InputAction sprint;
     bool sprinting = false;
+    public FireSystem FireSys;
 
     // Start is called before the first frame update
     void Start()
@@ -47,10 +48,12 @@ public class Player : MonoBehaviour
     void OnSprintStart(InputAction.CallbackContext context)
     {
        sprinting = true;
+       FireSys.Sprint = true;
     }
 
     void OnSprintStop(InputAction.CallbackContext context) 
     {
         sprinting = false;
+        FireSys.Sprint = false;
     }
 }

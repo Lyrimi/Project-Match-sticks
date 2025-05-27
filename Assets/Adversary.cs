@@ -40,6 +40,9 @@ public class Adversary : MonoBehaviour
 
     Vector2 home;
 
+    PlayerTest enemyScript;
+    bool enemyHiding;
+
     bool enemyInSight = false;
     int enemyLastSeen = 0x7FFFFFFF;
     int animLostSightTimer = 0x7FFFFFFF;
@@ -60,6 +63,8 @@ public class Adversary : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        enemyScript = enemy.GetComponent<PlayerTest>();
 
         home = transform.position;
 
@@ -88,6 +93,15 @@ public class Adversary : MonoBehaviour
         Vector2 movement;
         float movMagnitude;
         float rotateMovement = 0;
+        if (enemyScript.isHidden()) {
+            if (enemyInSight) {
+                enemyInSight = false;
+                enemyHiding = true;
+                enemyLastSeen = 0x7FFFFFFF;
+            }
+        } else {
+            enemyHiding = false;
+        }
         if (enemyInSight) {
             float angleDiff = Mathf.Atan2(enemy.transform.position.y-transform.position.y, enemy.transform.position.x-transform.position.x)-rotation;
             if (angleDiff <= -Mathf.PI) {
@@ -249,7 +263,15 @@ public class Adversary : MonoBehaviour
         }
     }
 
+    public bool IsEnemyHiding() {
+        return enemyHiding;
+    }
+
     public void VisionUpdate(Boolean spotted) {
+        if (enemyScript.isHidden()) {
+            enemyHiding = spotted;
+            return;
+        }
         enemyInSight = spotted;
     }
 

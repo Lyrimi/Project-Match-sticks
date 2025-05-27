@@ -7,6 +7,8 @@ public class PlayerTest : MonoBehaviour
     public float speed;
 
     Rigidbody2D rb;
+    bool hidden = false;
+    bool hideButton = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,18 @@ public class PlayerTest : MonoBehaviour
             vel /= length;
         }
         rb.velocity = vel*speed;
+        if (Input.GetButton("Jump")) {
+            if (!hideButton) {
+                hideButton = true;
+                hidden = !hidden;
+            }
+        } else {
+            hideButton = false;
+        }
+    }
+
+    public bool isHidden() {
+        return hidden;
     }
 
     public Vector2 RandomPointInRingMath(float lowerRadius, float upperRadius, float minRadians, float maxRadians) {

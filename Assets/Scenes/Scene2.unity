@@ -505,12 +505,24 @@ MonoBehaviour:
   maxTurnSpeed: 16
   angulFriction: 25
   friction: 25
-  lostSightChaseTime: 90
-  animLostSightInitDelay: 40
-  animLostSightTurnTime: 30
-  animLostSightTurnFactor: 0.75
-  animLostSightTurnDelay: 50
-  animLostSightEndDelay: 10
+  lostSightChaseTime: 80
+  animLostSightInitDelay: 35
+  animLostSightTurnTime: 28
+  animLostSightTurnFactor: 0.77
+  animLostSightTurnDelay: 40
+  animLostSightEndDelay: 20
+  wanderTimerMin: 160
+  wanderTimerMax: 400
+  wanderAdjustTimerMin: 50
+  wanderAdjustTimerMax: 180
+  wanderAdjustTimerMinRemaining: 60
+  wanderDelayMin: 80
+  wanderDelayMax: 220
+  wanderAdjustMinAngle: 0.3926991
+  wanderAdjustMaxAngle: 1.178097
+  wanderMoveFactor: 0.8
+  wanderTurnFactor: 0.75
+  headHomeDistance: 12
   DEBUG_FACING: {fileID: 809927332}
   DEBUG_CHASE: {fileID: 1769310802}
 --- !u!1 &770256911
@@ -949,9 +961,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: {fileID: 1740011226}
-  baseRadius: 2.1
-  coneRadius: 8
-  angle: 2.1
+  baseRadius: 1.5
+  coneRadius: 6.5
+  angle: 1.9
   arcResolution: 17
   circleResolution: 7
   iterations: 5
@@ -1153,8 +1165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1774699652}
   baseRadius: 1
-  coneRadius: 5
-  angle: 1.77
+  coneRadius: 5.5
+  angle: 1.7
   arcResolution: 15
   circleResolution: 5
   iterations: 5

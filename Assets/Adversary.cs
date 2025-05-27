@@ -15,6 +15,7 @@ public class Adversary : MonoBehaviour
     public float maxSpeedFriction;
     public float turnAccel;
     public float maxTurnSpeed;
+    public float smallTurnThreshold;
     public float angulFriction;
     public float friction;
     public int lostSightChaseTime;
@@ -35,8 +36,8 @@ public class Adversary : MonoBehaviour
     public float wanderMoveFactor;
     public float wanderTurnFactor;
     public float headHomeDistance;
-    public GameObject DEBUG_FACING;
-    public GameObject DEBUG_CHASE;
+    public GameObject visionLight;
+    public float visionLightDistance;
 
     Vector2 home;
 
@@ -88,8 +89,6 @@ public class Adversary : MonoBehaviour
             }
         }
 
-        Color DEBUG_COLOR;
-
         Vector2 movement;
         float movMagnitude;
         float rotateMovement = 0;
@@ -109,12 +108,11 @@ public class Adversary : MonoBehaviour
             } else if (angleDiff > Mathf.PI) {
                 angleDiff -= Mathf.PI*2;
             }
-            rotateMovement = (Mathf.Sign(angleDiff));
+            rotateMovement = Mathf.Abs(angleDiff)<smallTurnThreshold?angleDiff/smallTurnThreshold:Mathf.Sign(angleDiff);
             movement = new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)).normalized;
             movMagnitude = 1;
             enemyLastSeen = 0;
             animLostSightTimer = 0;
-            DEBUG_COLOR = new Color(.5f, 0, 0);
         } else {
             if (enemyLastSeen < lostSightChaseTime) {
                 if (enemyLastSeen == 0) {
@@ -131,12 +129,9 @@ public class Adversary : MonoBehaviour
                     angleDiff -= Mathf.PI*2;
                 }
                 
-                rotateMovement = Mathf.Sign(angleDiff);
+                rotateMovement = Mathf.Abs(angleDiff)<smallTurnThreshold?angleDiff/smallTurnThreshold:Mathf.Sign(angleDiff);
                 movement = new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)).normalized;
                 movMagnitude = 1;
-                DEBUG_COLOR = new Color(0, 0, .5f);
-
-                DEBUG_CHASE.transform.position = predictedPosition;
             } else if (animLostSightTimer < animLostSightInitDelay+animLostSightTurnTime*4+animLostSightTurnDelay*2+animLostSightEndDelay) {
                 if (animLostSightTimer < animLostSightInitDelay) {
                 } else if (animLostSightTimer < animLostSightInitDelay+animLostSightTurnTime) {
@@ -158,7 +153,6 @@ public class Adversary : MonoBehaviour
                 
                 movement = Vector2.zero;
                 movMagnitude = 0;
-                DEBUG_COLOR = new Color(.5f, .5f, 0);
             } else {
                 if (wanderDeflectAngle != WANDER_DEFLECT_NO_DEFLECT) {
                     wanderAngle = wanderDeflectAngle;
@@ -191,7 +185,7 @@ public class Adversary : MonoBehaviour
                         angleDiff -= Mathf.PI*2;
                     }
                     if (angleDiff != 0) {
-                        rotateMovement = Mathf.Sign(angleDiff)*wanderTurnFactor;
+                        rotateMovement = Mathf.Abs(angleDiff)*wanderTurnFactor<smallTurnThreshold?angleDiff*wanderTurnFactor/smallTurnThreshold:Mathf.Sign(angleDiff)*wanderTurnFactor;
                     }
                     wanderAdjustTimer--;
                     wanderTimer--;
@@ -199,13 +193,10 @@ public class Adversary : MonoBehaviour
                         wanderDelay = UnityEngine.Random.Range(wanderDelayMin, wanderDelayMax+1);
                     }
                 }
-                DEBUG_COLOR = new Color(.5f, .5f, .5f);
             }
         }
-
-        GetComponentInChildren<SpriteRenderer>().color = DEBUG_COLOR;
         
-        DEBUG_FACING.transform.position = transform.position+new Vector3(Mathf.Cos(rotation), Mathf.Sin(rotation), 0)*.3f;
+        visionLight.transform.position = transform.position+new Vector3(Mathf.Cos(rotation), Mathf.Sin(rotation), 0)*visionLightDistance;
         rb.AddForce(movement*accel);
         float prevAngulVel = angulVel;
         angulVel = rotateMovement*turnAccel;
@@ -241,9 +232,10 @@ public class Adversary : MonoBehaviour
             }
         }
 
-        Quaternion q = Quaternion.Euler(0, 0, rotation/Mathf.PI*180);
+        Quaternion q = Quaternion.Euler(0, 0, rotation*Mathf.Rad2Deg);
         cone1.transform.rotation = q;
         cone2.transform.rotation = q;
+        visionLight.transform.rotation = q;
     }
 
     public void SetupWanderTimer() {

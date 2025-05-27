@@ -229,13 +229,13 @@ MonoBehaviour:
   wanderAdjustTimerMinRemaining: 60
   wanderDelayMin: 80
   wanderDelayMax: 220
-  wanderAdjustMinAngle: 0.3926991
-  wanderAdjustMaxAngle: 1.178097
+  wanderAdjustMinAngle: 0.4
+  wanderAdjustMaxAngle: 1.18
   wanderMoveFactor: 0.8
   wanderTurnFactor: 0.75
   headHomeDistance: 12
   visionLight: {fileID: 3851369571074108140}
-  visionLightDistance: 0.3
+  visionLightDistance: 0
 --- !u!1 &6683151441663827742
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,11 +314,32 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 8.656566, y: 5.7523994}
-      - {x: -2.0952609, y: 1.4436159}
-      - {x: -1.260036, y: -2.5184383}
-      - {x: 7.290974, y: -4.6385236}
-      - {x: 9.920288, y: 2.0949278}
+    - - {x: -1.5, y: 0}
+      - {x: -1.46597, y: 0.3176995}
+      - {x: -1.365423, y: 0.6209838}
+      - {x: -1.202921, y: 0.8960918}
+      - {x: -0.9858385, y: 1.130541}
+      - {x: 3.78094, y: 5.287201}
+      - {x: 4.380693, y: 4.802034}
+      - {x: 4.918745, y: 4.249229}
+      - {x: 5.387515, y: 3.636575}
+      - {x: 5.780403, y: 2.9727}
+      - {x: 6.091873, y: 2.266954}
+      - {x: 6.31754, y: 1.529278}
+      - {x: 6.454224, y: 0.7700621}
+      - {x: 6.5, y: 0}
+      - {x: 6.454224, y: -0.7700621}
+      - {x: 6.31754, y: -1.529278}
+      - {x: 6.091873, y: -2.266954}
+      - {x: 5.780403, y: -2.9727}
+      - {x: 5.387515, y: -3.636575}
+      - {x: 4.918745, y: -4.249229}
+      - {x: 4.380693, y: -4.802034}
+      - {x: 3.78094, y: -5.287201}
+      - {x: -0.9858385, y: -1.130541}
+      - {x: -1.202921, y: -0.8960918}
+      - {x: -1.365423, y: -0.6209838}
+      - {x: -1.46597, y: -0.3176995}
   m_UseDelaunayMesh: 0
 --- !u!114 &7144662584714216369
 MonoBehaviour:
@@ -327,7 +348,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6683151441663827742}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64274cc7857dc9741bdca0b59faabea0, type: 3}
   m_Name: 
@@ -517,11 +538,28 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 3.8474703, y: 2.755101}
-      - {x: -0.59661156, y: 0.70547533}
-      - {x: -0.16400903, y: -1.0421584}
-      - {x: 3.3318558, y: -1.932008}
-      - {x: 4.6190963, y: 1.0883722}
+    - - {x: -1, y: 0}
+      - {x: -0.9549781, y: 0.2966762}
+      - {x: -0.8239664, y: 0.5666387}
+      - {x: -0.6187613, y: 0.785579}
+      - {x: 3.629907, y: 4.132042}
+      - {x: 4.103694, y: 3.661924}
+      - {x: 4.517048, y: 3.137878}
+      - {x: 4.863879, y: 2.567621}
+      - {x: 5.139082, y: 1.959551}
+      - {x: 5.338602, y: 1.322623}
+      - {x: 5.459501, y: 0.6662171}
+      - {x: 5.5, y: 0}
+      - {x: 5.459501, y: -0.6662171}
+      - {x: 5.338602, y: -1.322623}
+      - {x: 5.139082, y: -1.959551}
+      - {x: 4.863879, y: -2.567621}
+      - {x: 4.517048, y: -3.137878}
+      - {x: 4.103694, y: -3.661924}
+      - {x: 3.629907, y: -4.132042}
+      - {x: -0.6187613, y: -0.785579}
+      - {x: -0.8239664, y: -0.5666387}
+      - {x: -0.9549781, y: -0.2966762}
   m_UseDelaunayMesh: 0
 --- !u!114 &2143052583323396784
 MonoBehaviour:
@@ -530,7 +568,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8895302677332697838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64274cc7857dc9741bdca0b59faabea0, type: 3}
   m_Name: 
